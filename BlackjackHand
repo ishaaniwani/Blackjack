@@ -3,12 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package blackjack;
+
+
+import java.util.Random;
 
 /**
  *
- * @author sinhi155
+ * @author ishaa
  */
 public class BlackjackHand {
     
+    private Random randNum = new Random();
+    
+    public int getCard(Deck obj) {
+        
+        return obj.getCard();
+        
+    }
 }
+
