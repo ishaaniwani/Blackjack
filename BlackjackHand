@@ -6,124 +6,26 @@
 
 
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
- * @author ishaa
+ * @author sinhi155
  */
 public class BlackjackHand {
     
-    private Random randNum = new Random();
-    
-    private BlackjackHand user = new BlackjackHand();
-    private BlackjackHand comp = new BlackjackHand();
-    
-    public BlackjackHand(){
-        
-    }
     
     public int getCard(Deck obj) {
+        int cardVal = 0;
         
-        return obj.getCard();
+        cardVal = obj.getCard();
         
+        return cardVal;
     }
-    /**
-     * Subroutine that plays one game of blackjack
-     * 
-     * @param obj
-     * @return 
-     */
-    public boolean game(Deck obj) throws InterruptedException {
-        
-        Scanner in = new Scanner(System.in); 
-        
-        boolean game = false;
-        boolean userChoice = true;
-        
-        String choice = null;
-         
-        int userFirstCard = 0;
-        int userSecondCard = 0;
-        int compFirstCard = 0;
-        int compSecondCard = 0;
-        
-        int userInitVal = 0;
-        int compInitVal = 0;
-        
-        int userTotalVal = 0;
-        int compTotalVal = 0;
-        
-        int pubCompVal;
-        
-        System.out.println("Ready to play some blackjack? I'm the computer, and your dealer.");
-        userFirstCard = user.getCard(obj);
-        userSecondCard = user.getCard(obj);
-        
-        System.out.println("Your hand: " + userFirstCard + "\t" + userSecondCard);
-        
-        userInitVal = userFirstCard + userSecondCard;
-        compInitVal = compFirstCard + compSecondCard;
-        
-        userTotalVal = userInitVal;
-        compTotalVal = compInitVal;
-        
-        if(compInitVal == 21) {
-            System.out.println("Yes! I win, you lose!");
-            return false;
-        } else if(userInitVal == 21) {
-            System.out.println("Argh! You win. Good game.");
-            return true;
-        }
-        
-        System.out.println("As the rules of Blackjack say, I will show you one of my cards:\t" + compFirstCard);
-        
-        
-        
-        while(userChoice != false) {
-            
-            System.out.print("Hit or stand, mate? Y is hit. N if stand.\t");
-            choice = in.next();
-            
-            if("Y".equals(choice)) {
-                userTotalVal += user.hit(obj); 
-                if(userTotalVal >= 21) {
-                    System.out.println("Oops. You went over 21. You lose.");
-                    return false;
-                }
-                userChoice = true;
-            } else if("N".equals(choice)) {
-                System.out.println("Your choice was to stand. Your total value is: " + userTotalVal);
-                userChoice = false; 
-            } else {
-                System.out.println("Your answer did not satisfy my quiery.");
-            }
-        }
-        
-        System.out.println("Now I, the dealer will hit and stand.");
-        System.out.println("Before I go, I will show you my second card: " + compSecondCard);
-        
-        if(userTotalVal <= 16) {
-            System.out.println("Since the value of your hand was " + userTotalVal + " I have to hit no matter what");
-            pubCompVal = comp.hit(obj);
-            
-            System.out.println("I got " + pubCompVal);
-            compTotalVal += pubCompVal;
-            
-            if(compTotalVal > 21) {
-                return true;
-            } else if(compTotalVal >= userTotalVal) {
-                return false;
-            }
-        }
-        return game;
-    }
-    private int hit(Deck obj) {
+    public int hit(Deck obj) {
         int hitVal = 0;
+        hitVal = obj.getCard();
         
-        user.getCard(obj);
-        
+        System.out.println("Card Value: " + hitVal);
         return hitVal;
-    }   
-}
-
+    }
+} 
