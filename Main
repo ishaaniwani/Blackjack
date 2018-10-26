@@ -1,3 +1,6 @@
+
+import java.util.Scanner;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,19 +9,143 @@
 
 /**
  *
- * @author ishaa
+ * @author sinhi155
  */
 public class Main {
     
-    public static void main(String[] args) {
-        
+    public static void main(String args[]) {
+     
         Deck myDeck = new Deck();
-        BlackjackHand blackjack = new BlackjackHand();
+        
         BlackjackHand user = new BlackjackHand();
         BlackjackHand comp = new BlackjackHand();
         
-        
-        
+       
     }
     
+    public boolean game(Deck obj, BlackjackHand user, BlackjackHand comp) {
+        
+        Scanner in = new Scanner(System.in); 
+        
+        boolean game = false;
+        
+        boolean userChoice = true;
+        boolean compChoice = true;
+        
+        String choice = null;
+         
+        int userFirstCard = 0;
+        int userSecondCard = 0;
+        int compFirstCard = 0;
+        int compSecondCard = 0;
+        
+        int userInitVal = 0;
+        int compInitVal = 0;
+        
+        int userTotalVal = 0;
+        int compTotalVal = 0;
+        
+        int pubCompVal;
+        
+        userInitVal = userFirstCard + userSecondCard;
+        compInitVal = compFirstCard + compSecondCard;
+        
+        userTotalVal = userInitVal;
+        compTotalVal = compInitVal;
+        
+        System.out.println("Your hand: " + userFirstCard + "\t" + userSecondCard);
+        System.out.println("Total Vlaue: " + userTotalVal);
+        
+        /**
+         * This statement will never be run because the maximum value you can get 
+         * for the first two cards is 20. There is a rule that if you get an Ace
+         * it can be either worth 11 o 1 depending on the user's choice;
+         */
+        if(compTotalVal == 21) {
+            System.out.println("Yes! I win, you lose!");
+            return false;
+        } else if(userTotalVal == 21) {
+            System.out.println("Argh! You win. Good game.");
+            return true;
+        }
+        
+        System.out.println("As the rules of Blackjack say, I will show you one of my cards:\t" + compFirstCard);
+        
+        while(userChoice != false) {
+            
+            System.out.print("Hit or stand, mate? Y is hit. N if stand.\t");
+            choice = in.next();
+            
+            if("Y".equals(choice)) {
+                userTotalVal += user.hit(obj); 
+                if(userTotalVal >= 21) {
+                    System.out.println("Oops. You went over 21. You lose.");
+                    return false;
+                }
+                userChoice = true;
+            } else if("N".equals(choice)) {
+                System.out.println("Your choice was to stand. Your total value is: " + userTotalVal);
+                userChoice = false; 
+            } else {
+                System.out.println("Your answer did not satisfy my quiery.");
+            }
+        }
+        System.out.println("Now I, the dealer will hit and stand.");
+        System.out.println("Before I go, I will show you my second card: " + compSecondCard);
+        
+        if(userTotalVal <= 16) {
+            System.out.println("Since the value of your hand was " + userTotalVal + " I have to hit no matter what");
+            pubCompVal = comp.hit(obj);
+            
+            System.out.println("I got " + pubCompVal);
+            compTotalVal += pubCompVal;
+            
+            if(compTotalVal > 21) {
+                return true;
+            } else if(compTotalVal >= userTotalVal) {
+                return false;
+            }
+        }
+        
+        /**
+         * If the user has a value between 16 and 21 and has a greater value than 
+         * the computer. The computer hits, because the dealer is guaranteed to lose.
+         * The best thing the dealer can do is hit.
+         */
+        if(userTotalVal >= 16 && userTotalVal <= 21 && compTotalVal < userTotalVal) {
+           compTotalVal += comp.hit(obj);
+           System.out.println(compTotalVal);
+           
+           if(compTotalVal >= 21) {
+               return true; 
+           }
+        } 
+        
+        while(compChoice != false) {
+            
+            System.out.print("After being FORCED to hit if your card value was ");
+            choice = in.next();
+            
+            if(compTotalVal <= 16) {
+                compTotalVal += comp.hit(obj); 
+                if(compTotalVal >= 21) {
+                    System.out.println("Oops. I went over 21. I lose.");
+                    return false;
+                }
+                compChoice = true;
+            } else if(compTotalVal >= 16) {
+                System.out.println("My choice was to stand. My total value is: " + compTotalVal);
+                userChoice = false; 
+            } 
+        }
+        
+        if(userTotalVal > compTotalVal) {
+            return true;
+        }
+        if(compTotalVal >= userTotalVal) {
+            return false;
+        }
+       
+        return game;
+    }
 }
